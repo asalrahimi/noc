@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+<<<<<<< HEAD
 use app\models\Service;
 use app\models\ServiceSearch;
 use yii\web\Controller;
@@ -33,11 +34,22 @@ class ServiceController extends Controller
 
     /**
      * Lists all Service models.
+=======
+use yii\web\Controller;
+use yii\data\ActiveDataProvider;
+use yii\db\Query;
+
+class ServiceController extends Controller
+{
+    /**
+     * Displays index .
+>>>>>>> 4d6b9e2206d5b6f9676307fdad550c006ac14bd6
      *
      * @return string
      */
     public function actionIndex()
     {
+<<<<<<< HEAD
         $searchModel = new ServiceSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
@@ -131,4 +143,15 @@ class ServiceController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+=======
+
+    // select all services 
+    $query = new Query();
+
+        $dataProvider = new ActiveDataProvider(['query' => $query->from('service'),]);
+        $dataProvider->setSort(false);
+        return $this->render('index', ['dataProvider' => $dataProvider]);
+    }
+
+>>>>>>> 4d6b9e2206d5b6f9676307fdad550c006ac14bd6
 }

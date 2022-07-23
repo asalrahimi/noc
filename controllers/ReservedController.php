@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+<<<<<<< HEAD
 use app\models\Reserved;
 use app\models\ReservedSearch;
 use yii\web\Controller;
@@ -33,11 +34,22 @@ class ReservedController extends Controller
 
     /**
      * Lists all Reserved models.
+=======
+use yii\web\Controller;
+use yii\data\ActiveDataProvider;
+use yii\db\Query;
+
+class ReservedController extends Controller
+{
+    /**
+     * Displays index .
+>>>>>>> 4d6b9e2206d5b6f9676307fdad550c006ac14bd6
      *
      * @return string
      */
     public function actionIndex()
     {
+<<<<<<< HEAD
         $searchModel = new ReservedSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
@@ -130,5 +142,14 @@ class ReservedController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+=======
+
+        // select all reserved services 
+        $query = new Query();
+
+        $dataProvider = new ActiveDataProvider(['query' => $query->from('reserved_service'),]);
+        $dataProvider->setSort(false);
+        return $this->render('index', ['dataProvider' => $dataProvider]);
+>>>>>>> 4d6b9e2206d5b6f9676307fdad550c006ac14bd6
     }
 }
