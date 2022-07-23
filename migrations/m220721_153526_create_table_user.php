@@ -17,7 +17,7 @@ class m220721_153526_create_table_user extends Migration
             'name'=> $this->string(30)->notNull(),
             'family'=> $this->string(30)->notNull(),
             'address'=> $this->string(200)->notNull(),
-            'phone'=> $this->integer(11)->notNull(),
+            'phone'=> $this->string(11)->notNull(),
         ]);
 
     }
