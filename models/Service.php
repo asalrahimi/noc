@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+<<<<<<< HEAD
 use Yii;
 
 /**
@@ -25,10 +26,20 @@ class Service extends \yii\db\ActiveRecord
 
     /**
      * {@inheritdoc}
+=======
+use yii\db\ActiveRecord;
+
+class Service extends ActiveRecord
+{
+
+        /**
+     * @return array the validation rules.
+>>>>>>> 4d6b9e2206d5b6f9676307fdad550c006ac14bd6
      */
     public function rules()
     {
         return [
+<<<<<<< HEAD
             [['name', 'type', 'max_use_no', 'pop_or_point'], 'required'],
             [['max_use_no'], 'integer'],
             [['name'], 'string', 'max' => 100],
@@ -50,4 +61,10 @@ class Service extends \yii\db\ActiveRecord
             'pop_or_point' => 'Pop Or Point',
         ];
     }
+=======
+            [['name', 'type','max_use_no','pop_or_point'],'required' ],
+        ];
+    }
+
+>>>>>>> 4d6b9e2206d5b6f9676307fdad550c006ac14bd6
 }
