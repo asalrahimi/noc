@@ -2,10 +2,6 @@
 
 namespace app\models;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> ea3cea29e22933ddd4f7073f48ee1ad59c9f63a5
 use Yii;
 
 /**
@@ -29,29 +25,15 @@ class User extends \yii\db\ActiveRecord
 
     /**
      * {@inheritdoc}
-<<<<<<< HEAD
-=======
-=======
-use yii\db\ActiveRecord;
-
-class User extends ActiveRecord
-{
-
-        /**
-     * @return array the validation rules.
->>>>>>> 4d6b9e2206d5b6f9676307fdad550c006ac14bd6
->>>>>>> ea3cea29e22933ddd4f7073f48ee1ad59c9f63a5
      */
     public function rules()
     {
         return [
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> ea3cea29e22933ddd4f7073f48ee1ad59c9f63a5
             [['name', 'family', 'address', 'phone'], 'required'],
             [['name', 'family'], 'string', 'max' => 30],
-            [['address'], 'string', 'max' => 200],        ];
+            [['address'], 'string', 'max' => 200],
+            [['phone'], 'match', 'pattern' => '^(0|0098|\+98)9(0[1-5]|[1 3]\d|2[0-2]|98)\d{7}$^'],
+        ];
     }
 
     /**
@@ -67,14 +49,4 @@ class User extends ActiveRecord
             'phone' => 'Phone',
         ];
     }
-<<<<<<< HEAD
-=======
-=======
-            // username and password are both required
-            [['name', 'family','address'], 'required'],
-        ];
-    }
-
->>>>>>> 4d6b9e2206d5b6f9676307fdad550c006ac14bd6
->>>>>>> ea3cea29e22933ddd4f7073f48ee1ad59c9f63a5
 }

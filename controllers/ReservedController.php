@@ -2,12 +2,8 @@
 
 namespace app\controllers;
 
-<<<<<<< HEAD
 use app\models\Pop;
 use app\models\PopSearch;
-=======
-<<<<<<< HEAD
->>>>>>> ea3cea29e22933ddd4f7073f48ee1ad59c9f63a5
 use app\models\Reserved;
 use app\models\ReservedSearch;
 use app\models\Service;
@@ -49,30 +45,13 @@ class ReservedController extends Controller
 
     /**
      * Lists all Reserved models.
-<<<<<<< HEAD
-=======
-=======
-use yii\web\Controller;
-use yii\data\ActiveDataProvider;
-use yii\db\Query;
-
-class ReservedController extends Controller
-{
-    /**
-     * Displays index .
->>>>>>> 4d6b9e2206d5b6f9676307fdad550c006ac14bd6
->>>>>>> ea3cea29e22933ddd4f7073f48ee1ad59c9f63a5
      *
      * @return string
      */
     public function actionIndex()
     {
-<<<<<<< HEAD
 
         // read and show all reserved services
-=======
-<<<<<<< HEAD
->>>>>>> ea3cea29e22933ddd4f7073f48ee1ad59c9f63a5
         $searchModel = new ReservedSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
@@ -257,7 +236,6 @@ class ReservedController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
-<<<<<<< HEAD
     }
 
 
@@ -283,16 +261,5 @@ class ReservedController extends Controller
 
         $pop->save();
         $service->save();
-=======
-=======
-
-        // select all reserved services 
-        $query = new Query();
-
-        $dataProvider = new ActiveDataProvider(['query' => $query->from('reserved_service'),]);
-        $dataProvider->setSort(false);
-        return $this->render('index', ['dataProvider' => $dataProvider]);
->>>>>>> 4d6b9e2206d5b6f9676307fdad550c006ac14bd6
->>>>>>> ea3cea29e22933ddd4f7073f48ee1ad59c9f63a5
     }
 }
