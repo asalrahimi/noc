@@ -1,3 +1,6 @@
+** Please create a database named "noc" before rendering the project on the local server.
+After creating the database, install all dependencies using a package manager such as composer and then push up the migrations.**
+
 <p align="center">
     <a href="https://github.com/yiisoft" target="_blank">
         <img src="https://avatars0.githubusercontent.com/u/993323" height="100px">
