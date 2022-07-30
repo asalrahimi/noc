@@ -16,6 +16,7 @@ class m220722_134856_create_table_pop extends Migration
 
             'id'=>$this->primaryKey(),
             'name'=>$this->string(100)->notNull(),
+            'address'=>$this->string(200)->notNull(),
             'type'=>$this->string(10)->notNull(),
             'max_use_no'=>$this->integer()->notNull(),
         ]);

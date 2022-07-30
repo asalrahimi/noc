@@ -2,9 +2,11 @@
 
 namespace app\controllers;
 
-<<<<<<< HEAD
 use app\models\Pop;
 use app\models\PopSearch;
+use app\models\Service;
+use app\models\ServicePop;
+use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -34,25 +36,16 @@ class PopController extends Controller
 
     /**
      * Lists all Pop models.
-=======
-use yii\web\Controller;
-use yii\data\ActiveDataProvider;
-use yii\db\Query;
-
-class PopController extends Controller
-{
-    /**
-     * Displays index .
->>>>>>> 4d6b9e2206d5b6f9676307fdad550c006ac14bd6
      *
      * @return string
      */
     public function actionIndex()
     {
-<<<<<<< HEAD
+        // read all data from pop table
         $searchModel = new PopSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
+        // render index page of points
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -67,6 +60,7 @@ class PopController extends Controller
      */
     public function actionView($id)
     {
+        // render view page of points
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
@@ -81,12 +75,20 @@ class PopController extends Controller
     {
         $model = new Pop();
 
+        // check form method and save data in model
         if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+            if ($model->load($this->request->post())) {
+
+                // check duplicate record
+                if (Pop::findOne(['name' => $model->name]) === null) {
+                    if ($model->save())
+                        return $this->redirect(['view', 'id' => $model->id]);
+                } else {
+                    Yii::$app->session->setFlash('error', 'pop already exists !');
+                }
+            } else {
+                $model->loadDefaultValues();
             }
-        } else {
-            $model->loadDefaultValues();
         }
 
         return $this->render('create', [
@@ -103,12 +105,31 @@ class PopController extends Controller
      */
     public function actionUpdate($id)
     {
+
+        // find selected user record
         $model = $this->findModel($id);
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        // set old max_use_no in variable
+        $maxUseNo = $model->max_use_no;
+
+        // data validation
+        if ($this->request->isPost && $model->load($this->request->post())) {
+
+            // prevent lessen max_use_no
+            if ($model->max_use_no >= $maxUseNo) {
+
+                //save data in model (update)
+                if ($model->save()) {
+                    Yii::$app->session->setFlash('success', 'update successful !');
+                    return $this->redirect(['view', 'id' => $model->id]);
+                }
+            } else {
+                $model->max_use_no = $maxUseNo;
+                Yii::$app->session->setFlash('error', 'you can not decrease max_use_no field !');
+            }
         }
 
+        // rollback to update form if update failed or it is first time of introit
         return $this->render('update', [
             'model' => $model,
         ]);
@@ -123,8 +144,17 @@ class PopController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
 
+        // for delete a pop shouldn't be used anywhere
+        if (ServicePop::find()->where(['pop_id' => $id])->all()) {
+            Yii::$app->session->setFlash('error', 'this point has service yet , you can not delete it!');
+        } else {
+            if ($this->findModel($id)->delete()) {
+                Yii::$app->session->setFlash('success', 'pop was deleted !');
+            } else {
+                Yii::$app->session->setFlash('error', 'delete failed !');
+            }
+        }
         return $this->redirect(['index']);
     }
 
@@ -135,21 +165,12 @@ class PopController extends Controller
      * @return Pop the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
+    public function findModel($id)
     {
         if (($model = Pop::findOne(['id' => $id])) !== null) {
             return $model;
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
-=======
-
-        // select all reserved services 
-        $query = new Query();
-
-        $dataProvider = new ActiveDataProvider(['query' => $query->from('pop'),]);
-        $dataProvider->setSort(false);
-        return $this->render('index', ['dataProvider' => $dataProvider]);
->>>>>>> 4d6b9e2206d5b6f9676307fdad550c006ac14bd6
     }
 }

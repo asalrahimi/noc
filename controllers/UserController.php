@@ -2,9 +2,11 @@
 
 namespace app\controllers;
 
-<<<<<<< HEAD
+use app\models\Reserved;
 use app\models\User;
 use app\models\UserSearch;
+use Yii;
+use yii\db\Query;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -34,22 +36,12 @@ class UserController extends Controller
 
     /**
      * Lists all User models.
-=======
-use yii\web\Controller;
-use yii\data\ActiveDataProvider;
-use yii\db\Query;
-
-class UserController extends Controller
-{
-    /**
-     * Displays index .
->>>>>>> 4d6b9e2206d5b6f9676307fdad550c006ac14bd6
      *
      * @return string
      */
     public function actionIndex()
     {
-<<<<<<< HEAD
+        // show all users
         $searchModel = new UserSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
@@ -67,6 +59,7 @@ class UserController extends Controller
      */
     public function actionView($id)
     {
+        // show  selected user information
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
@@ -81,9 +74,19 @@ class UserController extends Controller
     {
         $model = new User();
 
+        // check form method
         if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+
+            // save new user in database
+            if ($model->load($this->request->post())) {
+                
+                // check duplicate record
+                if (User::findOne(['name' => $model->name, 'family' => $model->family, 'address' => $model->address]) === null) {
+                    if ($model->save())
+                        return $this->redirect(['view', 'id' => $model->id]);
+                } else {
+                    Yii::$app->session->setFlash('error', 'user already exists !');
+                }
             }
         } else {
             $model->loadDefaultValues();
@@ -103,8 +106,10 @@ class UserController extends Controller
      */
     public function actionUpdate($id)
     {
+        // get selected user information for update
         $model = $this->findModel($id);
 
+        // check form method and update user information
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
@@ -123,8 +128,17 @@ class UserController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
 
+        // search selected user in reserved service table( selected user must not have any services )
+        if (Reserved::find()->where(['user_id' => $id])->all()) {
+            Yii::$app->session->setFlash('error', 'this user has service yet , you can not delete account!');
+        } else {
+            if ($this->findModel($id)->delete()) {
+                Yii::$app->session->setFlash('success', 'User was deleted !');
+            } else {
+                Yii::$app->session->setFlash('error', 'delete failed !');
+            }
+        }
         return $this->redirect(['index']);
     }
 
@@ -143,15 +157,4 @@ class UserController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
-=======
-
-    // select all users 
-    $query = new Query();
-
-        $dataProvider = new ActiveDataProvider(['query' => $query->from('user'),]);
-        $dataProvider->setSort(false);
-        return $this->render('index', ['dataProvider' => $dataProvider]);
-    }
-
->>>>>>> 4d6b9e2206d5b6f9676307fdad550c006ac14bd6
 }

@@ -2,12 +2,18 @@
 
 namespace app\controllers;
 
-<<<<<<< HEAD
+use app\models\Pop;
+use app\models\Reserved;
 use app\models\Service;
+use app\models\ServicePop;
 use app\models\ServiceSearch;
+use Yii;
+use yii\db\Query;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\ArrayHelper;
+use yii\rbac\Item;
 
 /**
  * ServiceController implements the CRUD actions for Service model.
@@ -34,22 +40,13 @@ class ServiceController extends Controller
 
     /**
      * Lists all Service models.
-=======
-use yii\web\Controller;
-use yii\data\ActiveDataProvider;
-use yii\db\Query;
-
-class ServiceController extends Controller
-{
-    /**
-     * Displays index .
->>>>>>> 4d6b9e2206d5b6f9676307fdad550c006ac14bd6
      *
      * @return string
      */
     public function actionIndex()
     {
-<<<<<<< HEAD
+
+        // read and show all services
         $searchModel = new ServiceSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
@@ -67,8 +64,13 @@ class ServiceController extends Controller
      */
     public function actionView($id)
     {
+        $model = $this->findModel($id);
+        $model->getPopOrPoint();
+
+
+        // show selected service information
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model
         ]);
     }
 
@@ -81,16 +83,42 @@ class ServiceController extends Controller
     {
         $model = new Service();
 
+        // check form method
         if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+            // save new service to database
+            if ($model->load($this->request->post())) {
+                $pops = ($_POST['Service']['popOrPoint']);
+                // check duplication
+                if (!($model->duplicateService($pops,$model->name))) {
+                    // save service in db
+                    if ($model->save()) {
+                        // save pop_id and service_id in service_pop table
+                        foreach ($pops as $pop) {
+                            $popService = new ServicePop();
+                            $popService->service_id = $model->id;
+                            $popService->pop_id = (int)$pop;
+                            if ($popService->validate())
+                                $popService->save();
+                            else
+                                Yii::$app->session->setFlash('error', "service not validate !");
+                        }
+                        return $this->redirect(['view', 'id' => $model->id]);
+                    }
+                } else {
+                    Yii::$app->session->setFlash('error', 'service already exists !');
+                }
             }
         } else {
             $model->loadDefaultValues();
         }
 
+        $items = ArrayHelper::map(Pop::find()
+            ->where(['>', 'max_use_no', 0])->all(), 'id', 'name');
+
         return $this->render('create', [
             'model' => $model,
+            'items' => $items
+
         ]);
     }
 
@@ -103,18 +131,66 @@ class ServiceController extends Controller
      */
     public function actionUpdate($id)
     {
+        // find selected service record in table for update
         $model = $this->findModel($id);
+        $model->getPopOrPoint();
+        // set old max_use_no in variable
+        $maxUse = $model->max_use_no;
+        if ($this->request->isPost && $model->load($this->request->post())) {
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            // prevent lessen of max_use_no
+            if ($model->max_use_no < $maxUse) {
+                $model->max_use_no = $maxUse;
+                Yii::$app->session->setFlash('error', 'you can not decrease the (Max Use No) field');
+            } else {
+                $points = ($_POST['Service']['popOrPoint']);
+
+                // save service in db
+                if ($model->save()) {
+                    // delete old info from service_pop table
+                    ServicePop::deleteAll(['service_id' => $id]);
+                    // save pop_id and service_id in service_pop table
+                    foreach ($points as $pop) {
+                        $popService = new ServicePop();
+                        //set service info in ServicePop model
+                        $popService->service_id = $model->id;
+                        $popService->pop_id = (int)$pop;
+                        //save new service in service_pop table
+                        if ($popService->validate())
+                            $popService->save();
+                        else
+                            Yii::$app->session->setFlash('error', "service not validate !");
+                    }
+                    return $this->redirect(['view', 'id' => $model->id]);
+                }
+            }
+        }
+        $keys = [];
+        // get pops of service for update
+        $pops = explode(' , ', $model->getPopOrPoint());
+        //get all valid pops
+        $items = ArrayHelper::map(Pop::find()
+            ->where(['OR', ['>', 'max_use_no', 0], ['name' => $pops]])->all(), 'id', 'name');
+
+        // set all of this service pops as selected item in key array
+        foreach ($items as $key=>$value) {
+            if (isset($items[$key])) {
+                if (in_array($items[$key], $pops)) {
+                    $keys[$key] = ['selected' => true];
+                }
+            }
         }
 
+
+        // rollback to update form if update failed or it is first time of introit
         return $this->render('update', [
             'model' => $model,
+            'items' => $items,
+            'keys' => $keys
         ]);
     }
 
-    /**
+    /*
      * Deletes an existing Service model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param int $id
@@ -123,8 +199,18 @@ class ServiceController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
+        // for delete a service shouldn't be used anywhere
+        if (Reserved::find()->where(['service_id' => $id])->all()) {
+            Yii::$app->session->setFlash('error', 'this serivce is reserved by users , you can not delete it!');
+        } else {
+            // delete service from service and service_pop table
+            if ($this->findModel($id)->delete()) {
+                ServicePop::deleteAll(['service_id' => $id]);
+                Yii::$app->session->setFlash('success', 'service was deleted !');
+            } else {
+                Yii::$app->session->setFlash('error', 'delete failed !');
+            }
+        }
         return $this->redirect(['index']);
     }
 
@@ -143,15 +229,4 @@ class ServiceController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
-=======
-
-    // select all services 
-    $query = new Query();
-
-        $dataProvider = new ActiveDataProvider(['query' => $query->from('service'),]);
-        $dataProvider->setSort(false);
-        return $this->render('index', ['dataProvider' => $dataProvider]);
-    }
-
->>>>>>> 4d6b9e2206d5b6f9676307fdad550c006ac14bd6
 }

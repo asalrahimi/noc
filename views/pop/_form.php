@@ -14,7 +14,17 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'type')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'address')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'type')->dropDownList(
+        [
+            'pop'=>'pop',
+            'point'=>'point'
+        ],
+        [
+            'prompt' => 'Select Option',
+        ]
+    ) ?>
 
     <?= $form->field($model, 'max_use_no')->textInput() ?>
 

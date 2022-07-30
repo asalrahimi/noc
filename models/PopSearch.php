@@ -18,7 +18,7 @@ class PopSearch extends Pop
     {
         return [
             [['id', 'max_use_no'], 'integer'],
-            [['name', 'type'], 'safe'],
+            [['name', 'type','address'], 'safe'],
         ];
     }
 
@@ -63,7 +63,8 @@ class PopSearch extends Pop
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'type', $this->type]);
+            ->andFilterWhere(['like', 'type', $this->type])
+            ->andFilterWhere(['like', 'address', $this->address]);
 
         return $dataProvider;
     }

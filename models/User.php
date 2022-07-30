@@ -2,7 +2,6 @@
 
 namespace app\models;
 
-<<<<<<< HEAD
 use Yii;
 
 /**
@@ -26,25 +25,13 @@ class User extends \yii\db\ActiveRecord
 
     /**
      * {@inheritdoc}
-=======
-use yii\db\ActiveRecord;
-
-class User extends ActiveRecord
-{
-
-        /**
-     * @return array the validation rules.
->>>>>>> 4d6b9e2206d5b6f9676307fdad550c006ac14bd6
      */
     public function rules()
     {
         return [
-<<<<<<< HEAD
             [['name', 'family', 'address', 'phone'], 'required'],
             [['name', 'family'], 'string', 'max' => 30],
-            [['address'], 'string', 'max' => 200],
-            [['phone'], 'string', 'max' => 11],
-        ];
+            [['address'], 'string', 'max' => 200],        ];
     }
 
     /**
@@ -60,11 +47,4 @@ class User extends ActiveRecord
             'phone' => 'Phone',
         ];
     }
-=======
-            // username and password are both required
-            [['name', 'family','address'], 'required'],
-        ];
-    }
-
->>>>>>> 4d6b9e2206d5b6f9676307fdad550c006ac14bd6
 }

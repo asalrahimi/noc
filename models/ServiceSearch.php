@@ -18,7 +18,7 @@ class ServiceSearch extends Service
     {
         return [
             [['id', 'max_use_no'], 'integer'],
-            [['name', 'type', 'pop_or_point'], 'safe'],
+            [['name','popOrPoint'], 'safe'],
         ];
     }
 
@@ -51,8 +51,7 @@ class ServiceSearch extends Service
         $this->load($params);
 
         if (!$this->validate()) {
-            // uncomment the following line if you do not want to return any records when validation fails
-            // $query->where('0=1');
+            $query->where('0=1');
             return $dataProvider;
         }
 
@@ -60,11 +59,19 @@ class ServiceSearch extends Service
         $query->andFilterWhere([
             'id' => $this->id,
             'max_use_no' => $this->max_use_no,
+
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'type', $this->type])
-            ->andFilterWhere(['like', 'pop_or_point', $this->pop_or_point]);
+        $query->andFilterWhere(['like', 'name', $this->name]);
+        if(($this->popOrPoint !== null)&&($this->popOrPoint !== '')){
+            $query2=$query;
+        $query2->select('service_id')
+        ->join('INNER JOIN','service_pop','service_pop.service_id=service.id')
+        ->join('INNER JOIN','pop','service_pop.pop_id=pop.id')
+        ->where(['like', 'pop.name', $this->popOrPoint])
+        ->all();
+        $query->andFilterWhere(['id'=>$query2]);
+        }
 
         return $dataProvider;
     }

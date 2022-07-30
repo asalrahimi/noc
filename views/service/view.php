@@ -31,9 +31,8 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'name',
-            'type',
             'max_use_no',
-            'pop_or_point',
+            'popOrPoint',
         ],
     ]) ?>
 

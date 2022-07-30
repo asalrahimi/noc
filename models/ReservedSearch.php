@@ -17,8 +17,9 @@ class ReservedSearch extends Reserved
     public function rules()
     {
         return [
-            [['id', 'user_id', 'service_id', 'pop_id'], 'integer'],
-            [['user_name', 'user_family', 'user_address', 'service_name', 'service_type', 'pop_name', 'pop_type'], 'safe'],
+            [['user_id', 'service_id', 'pop_id'], 'integer','min' =>0],
+            [['service_name','pop_name','pop_type','user_name','user_family','user_address','id'], 'safe',]
+
         ];
     }
 
@@ -50,6 +51,7 @@ class ReservedSearch extends Reserved
 
         $this->load($params);
 
+
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
             // $query->where('0=1');
@@ -65,12 +67,13 @@ class ReservedSearch extends Reserved
         ]);
 
         $query->andFilterWhere(['like', 'user_name', $this->user_name])
-            ->andFilterWhere(['like', 'user_family', $this->user_family])
-            ->andFilterWhere(['like', 'user_address', $this->user_address])
-            ->andFilterWhere(['like', 'service_name', $this->service_name])
-            ->andFilterWhere(['like', 'service_type', $this->service_type])
-            ->andFilterWhere(['like', 'pop_name', $this->pop_name])
-            ->andFilterWhere(['like', 'pop_type', $this->pop_type]);
+        ->andFilterWhere(['like', 'user_family', $this->user_family])
+        ->andFilterWhere(['like', 'user_address', $this->user_address])
+        ->andFilterWhere(['like', 'service_name', $this->service_name])
+        ->andFilterWhere(['like', 'pop_name', $this->pop_name])
+        ->andFilterWhere(['like', 'pop_type', $this->pop_type]);
+
+
 
         return $dataProvider;
     }

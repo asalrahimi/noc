@@ -36,7 +36,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'user_address',
             'service_id',
             'service_name',
-            'service_type',
             'pop_id',
             'pop_name',
             'pop_type',

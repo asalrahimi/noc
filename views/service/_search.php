@@ -19,11 +19,9 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'name') ?>
 
-    <?= $form->field($model, 'type') ?>
-
     <?= $form->field($model, 'max_use_no') ?>
 
-    <?= $form->field($model, 'pop_or_point') ?>
+    <?= $form->field($model, 'popOrPoint') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
