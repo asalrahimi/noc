@@ -110,7 +110,7 @@ class Service extends \yii\db\ActiveRecord
     {
         return [
             [['max_use_no'], 'integer', 'min' => 0],
-            [['name', 'type', 'max_use_no', 'pop_or_point'], 'required'],
+            [['name','max_use_no'], 'required'],
             [['max_use_no'], 'integer'],
             [['name'], 'string', 'max' => 100],
             [['popOrPoint', 'name'], 'safe']

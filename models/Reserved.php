@@ -59,10 +59,9 @@ class Reserved extends \yii\db\ActiveRecord
             [['user_id', 'service_id', 'pop_id'], 'integer','min' =>0],
             [['user_name','user_family','user_address',
             'service_name','pop_name','pop_type'], 'safe',],
-            [['user_id', 'user_name', 'user_family', 'user_address', 'service_id', 'service_name', 'service_type', 'pop_id', 'pop_name', 'pop_type'], 'required'],
+            [['user_id', 'user_name', 'user_family', 'user_address', 'service_id', 'service_name', 'pop_id', 'pop_name', 'pop_type'], 'required'],
             [['user_name', 'user_family'], 'string', 'max' => 50],
             [['user_address', 'service_name', 'pop_name', 'pop_type'], 'string', 'max' => 100],
-            [['service_type'], 'string', 'max' => 60],
         ];
     }
 
