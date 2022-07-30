@@ -1,6 +1,7 @@
 <?php
 
 namespace app\models;
+
 use Yii;
 use yii\db\Query;
 use yii\helpers\ArrayHelper;
@@ -75,19 +76,12 @@ class Service extends \yii\db\ActiveRecord
     }
 
     // function for check duplicate records
-    public function duplicateService($pops,$name)
+    public function duplicateService($pops)
     {
         $duplicate = false;
-        $services=ArrayHelper::map(
-        ServicePop::find()
-        ->innerJoin('service','service_pop.service_id=service.id')
-        ->where(['service.name'=>$name])
-        ->all(),
-        '',
-        'id'
-        );
+
         foreach ($pops as $pop) {
-            if (ServicePop::find()->where(['and',['pop_id' => (int)$pop],['id' => $services]])->one()) {
+            if (ServicePop::find()->where(['and',['pop_id' => (int)$pop],['service_id' => $this->id]])->one()) {
                 return  $duplicate = true;
 
             }
@@ -109,9 +103,8 @@ class Service extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['name', 'max_use_no', 'popOrPoint'], 'required'],
             [['max_use_no'], 'integer', 'min' => 0],
-            [['name','max_use_no'], 'required'],
-            [['max_use_no'], 'integer'],
             [['name'], 'string', 'max' => 100],
             [['popOrPoint', 'name'], 'safe']
         ];

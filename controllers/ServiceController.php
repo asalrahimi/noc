@@ -89,7 +89,7 @@ class ServiceController extends Controller
             if ($model->load($this->request->post())) {
                 $pops = ($_POST['Service']['popOrPoint']);
                 // check duplication
-                if (!($model->duplicateService($pops,$model->name))) {
+                if (!($model->duplicateService($pops))) {
                     // save service in db
                     if ($model->save()) {
                         // save pop_id and service_id in service_pop table

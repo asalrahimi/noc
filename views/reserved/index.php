@@ -1,9 +1,16 @@
 <?php
 
+use app\models\Pop;
+use app\models\Reserved;
+use app\models\User;
+use app\models\UserService;
+use phpDocumentor\Reflection\Types\Integer;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
 use yii\grid\GridView;
+
+use function PHPSTORM_META\type;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\ReservedSearch */
