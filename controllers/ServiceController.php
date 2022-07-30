@@ -2,8 +2,12 @@
 
 namespace app\controllers;
 
+<<<<<<< HEAD
 use app\models\Pop;
 use app\models\Reserved;
+=======
+<<<<<<< HEAD
+>>>>>>> ea3cea29e22933ddd4f7073f48ee1ad59c9f63a5
 use app\models\Service;
 use app\models\ServicePop;
 use app\models\ServiceSearch;
@@ -40,13 +44,30 @@ class ServiceController extends Controller
 
     /**
      * Lists all Service models.
+<<<<<<< HEAD
+=======
+=======
+use yii\web\Controller;
+use yii\data\ActiveDataProvider;
+use yii\db\Query;
+
+class ServiceController extends Controller
+{
+    /**
+     * Displays index .
+>>>>>>> 4d6b9e2206d5b6f9676307fdad550c006ac14bd6
+>>>>>>> ea3cea29e22933ddd4f7073f48ee1ad59c9f63a5
      *
      * @return string
      */
     public function actionIndex()
     {
+<<<<<<< HEAD
 
         // read and show all services
+=======
+<<<<<<< HEAD
+>>>>>>> ea3cea29e22933ddd4f7073f48ee1ad59c9f63a5
         $searchModel = new ServiceSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
@@ -229,4 +250,18 @@ class ServiceController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+<<<<<<< HEAD
+=======
+=======
+
+    // select all services 
+    $query = new Query();
+
+        $dataProvider = new ActiveDataProvider(['query' => $query->from('service'),]);
+        $dataProvider->setSort(false);
+        return $this->render('index', ['dataProvider' => $dataProvider]);
+    }
+
+>>>>>>> 4d6b9e2206d5b6f9676307fdad550c006ac14bd6
+>>>>>>> ea3cea29e22933ddd4f7073f48ee1ad59c9f63a5
 }

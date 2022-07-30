@@ -2,6 +2,10 @@
 
 namespace app\controllers;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> ea3cea29e22933ddd4f7073f48ee1ad59c9f63a5
 use app\models\Pop;
 use app\models\PopSearch;
 use app\models\Service;
@@ -36,12 +40,29 @@ class PopController extends Controller
 
     /**
      * Lists all Pop models.
+<<<<<<< HEAD
+=======
+=======
+use yii\web\Controller;
+use yii\data\ActiveDataProvider;
+use yii\db\Query;
+
+class PopController extends Controller
+{
+    /**
+     * Displays index .
+>>>>>>> 4d6b9e2206d5b6f9676307fdad550c006ac14bd6
+>>>>>>> ea3cea29e22933ddd4f7073f48ee1ad59c9f63a5
      *
      * @return string
      */
     public function actionIndex()
     {
+<<<<<<< HEAD
         // read all data from pop table
+=======
+<<<<<<< HEAD
+>>>>>>> ea3cea29e22933ddd4f7073f48ee1ad59c9f63a5
         $searchModel = new PopSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
@@ -172,5 +193,17 @@ class PopController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+<<<<<<< HEAD
+=======
+=======
+
+        // select all reserved services 
+        $query = new Query();
+
+        $dataProvider = new ActiveDataProvider(['query' => $query->from('pop'),]);
+        $dataProvider->setSort(false);
+        return $this->render('index', ['dataProvider' => $dataProvider]);
+>>>>>>> 4d6b9e2206d5b6f9676307fdad550c006ac14bd6
+>>>>>>> ea3cea29e22933ddd4f7073f48ee1ad59c9f63a5
     }
 }

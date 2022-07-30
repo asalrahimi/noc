@@ -2,6 +2,10 @@
 
 namespace app\models;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> ea3cea29e22933ddd4f7073f48ee1ad59c9f63a5
 use Yii;
 
 /**
@@ -25,12 +29,30 @@ class Pop extends \yii\db\ActiveRecord
 
     /**
      * {@inheritdoc}
+<<<<<<< HEAD
+=======
+=======
+use yii\db\ActiveRecord;
+
+class Pop extends ActiveRecord
+{
+
+        /**
+     * @return array the validation rules.
+>>>>>>> 4d6b9e2206d5b6f9676307fdad550c006ac14bd6
+>>>>>>> ea3cea29e22933ddd4f7073f48ee1ad59c9f63a5
      */
     public function rules()
     {
         return [
+<<<<<<< HEAD
             [['name', 'type', 'max_use_no','address'], 'required'],
             [['max_use_no'], 'integer','min' =>0],
+=======
+<<<<<<< HEAD
+            [['name', 'type', 'max_use_no'], 'required'],
+            [['max_use_no'], 'integer'],
+>>>>>>> ea3cea29e22933ddd4f7073f48ee1ad59c9f63a5
             [['name'], 'string', 'max' => 100],
             [['address'], 'string', 'max' => 200],
             [['type'], 'string', 'max' => 10],
@@ -50,4 +72,13 @@ class Pop extends \yii\db\ActiveRecord
             'max_use_no' => 'Max Use No',
         ];
     }
+<<<<<<< HEAD
+=======
+=======
+            [['name', 'type','max_use_no'], 'required'],
+        ];
+    }
+
+>>>>>>> 4d6b9e2206d5b6f9676307fdad550c006ac14bd6
+>>>>>>> ea3cea29e22933ddd4f7073f48ee1ad59c9f63a5
 }

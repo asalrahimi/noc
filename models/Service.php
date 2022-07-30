@@ -2,6 +2,10 @@
 
 namespace app\models;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> ea3cea29e22933ddd4f7073f48ee1ad59c9f63a5
 use Yii;
 use yii\db\Query;
 use yii\helpers\ArrayHelper;
@@ -106,12 +110,30 @@ class Service extends \yii\db\ActiveRecord
 
     /**
      * {@inheritdoc}
+<<<<<<< HEAD
+=======
+=======
+use yii\db\ActiveRecord;
+
+class Service extends ActiveRecord
+{
+
+        /**
+     * @return array the validation rules.
+>>>>>>> 4d6b9e2206d5b6f9676307fdad550c006ac14bd6
+>>>>>>> ea3cea29e22933ddd4f7073f48ee1ad59c9f63a5
      */
     public function rules()
     {
         return [
+<<<<<<< HEAD
             [['name', 'max_use_no', 'popOrPoint'], 'required'],
             [['max_use_no'], 'integer', 'min' => 0],
+=======
+<<<<<<< HEAD
+            [['name', 'type', 'max_use_no', 'pop_or_point'], 'required'],
+            [['max_use_no'], 'integer'],
+>>>>>>> ea3cea29e22933ddd4f7073f48ee1ad59c9f63a5
             [['name'], 'string', 'max' => 100],
             [['popOrPoint', 'name'], 'safe']
         ];
@@ -129,4 +151,13 @@ class Service extends \yii\db\ActiveRecord
             'popOrPoint' => 'Pop_Point',
         ];
     }
+<<<<<<< HEAD
+=======
+=======
+            [['name', 'type','max_use_no','pop_or_point'],'required' ],
+        ];
+    }
+
+>>>>>>> 4d6b9e2206d5b6f9676307fdad550c006ac14bd6
+>>>>>>> ea3cea29e22933ddd4f7073f48ee1ad59c9f63a5
 }

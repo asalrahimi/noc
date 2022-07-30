@@ -2,7 +2,11 @@
 
 namespace app\models;
 
+<<<<<<< HEAD
 use GuzzleHttp\Psr7\Query;
+=======
+<<<<<<< HEAD
+>>>>>>> ea3cea29e22933ddd4f7073f48ee1ad59c9f63a5
 use Yii;
 
 /**
@@ -54,15 +58,38 @@ class Reserved extends \yii\db\ActiveRecord
 
     /**
      * {@inheritdoc}
+<<<<<<< HEAD
+=======
+=======
+use yii\db\ActiveRecord;
+use yii\db\Query;
+
+class Reserved extends ActiveRecord
+{
+
+
+    /**
+     * @return array the validation rules.
+>>>>>>> 4d6b9e2206d5b6f9676307fdad550c006ac14bd6
+>>>>>>> ea3cea29e22933ddd4f7073f48ee1ad59c9f63a5
      */
     public function rules()
     {
         return [
+<<<<<<< HEAD
             [['user_id','service_id', 'pop_id',], 'required'],
             [['user_id', 'service_id', 'pop_id'], 'integer','min' =>0],
             [['user_name','user_family','user_address',
             'service_name','pop_name','pop_type'], 'safe',]
 
+=======
+<<<<<<< HEAD
+            [['user_id', 'user_name', 'user_family', 'user_address', 'service_id', 'service_name', 'service_type', 'pop_id', 'pop_name', 'pop_type'], 'required'],
+            [['user_id', 'service_id', 'pop_id'], 'integer'],
+            [['user_name', 'user_family'], 'string', 'max' => 50],
+            [['user_address', 'service_name', 'pop_name', 'pop_type'], 'string', 'max' => 100],
+            [['service_type'], 'string', 'max' => 60],
+>>>>>>> ea3cea29e22933ddd4f7073f48ee1ad59c9f63a5
         ];
     }
 
@@ -83,5 +110,18 @@ class Reserved extends \yii\db\ActiveRecord
             'pop_name'=>'Pop Name',
             'pop_type'=>'Pop Type',
         ];
+<<<<<<< HEAD
+=======
+=======
+            [[$this->fields()], 'required'],
+        ];
+    }
+
+
+    public static function tableName()
+    {
+        return 'reserved_service';
+>>>>>>> 4d6b9e2206d5b6f9676307fdad550c006ac14bd6
+>>>>>>> ea3cea29e22933ddd4f7073f48ee1ad59c9f63a5
     }
 }
